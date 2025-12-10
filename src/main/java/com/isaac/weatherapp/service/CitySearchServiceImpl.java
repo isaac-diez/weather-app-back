@@ -6,8 +6,8 @@ import com.isaac.weatherapp.dto.CityListDTO;
 import com.isaac.weatherapp.dto.CityResponse;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CitySearchServiceImpl implements CitySearchService {
@@ -22,8 +22,10 @@ public class CitySearchServiceImpl implements CitySearchService {
 
         CityResponse response = geocodingApiClient.getCityData(cityName);
 
-        if (response.getResults().isEmpty()) {
-            throw new RuntimeException("City not found");
+        if (response.getResults() == null || response.getResults().isEmpty()) {
+            CityListDTO emptyListDTO = new CityListDTO();
+            emptyListDTO.setCities(Collections.emptyList());
+            return emptyListDTO;
         }
 
         List<CityDTO> cityDTOs = response.getResults().stream()
