@@ -24,7 +24,7 @@ public class WeatherServiceImpl implements WeatherService {
         dto.setCity(city.getName());
         dto.setTemperature(response.getCurrent().getTemperature());
         dto.setApparentTemperature(response.getCurrent().getApparentTemperature());
-        dto.setRelativeHumidity(response.getCurrent().getApparentTemperature());
+        dto.setRelativeHumidity(response.getCurrent().getRelativeHumidity());
         dto.setCloudCover(response.getCurrent().getCloudCover());
         dto.setIsDay(response.getCurrent().getIsDay());
         dto.setPrecipitation(response.getCurrent().getPrecipitation());
