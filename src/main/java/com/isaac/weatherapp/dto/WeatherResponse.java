@@ -37,6 +37,17 @@ public class WeatherResponse {
         @JsonProperty("cloud_cover")
         private Double cloudCover;
 
+        @JsonProperty("uv_index")
+        private Double uvIndex;
+
+        @JsonProperty("wind_speed_10m")
+        private Double windSpeed;
+
+        @JsonProperty("wind_direction_10m")
+        private Double windDirection;
+
+        @JsonProperty("wind_gusts_10m")
+        private Double windGusts;
 
     }
 

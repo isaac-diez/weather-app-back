@@ -28,6 +28,10 @@ public class WeatherServiceImpl implements WeatherService {
         dto.setCloudCover(response.getCurrent().getCloudCover());
         dto.setIsDay(response.getCurrent().getIsDay());
         dto.setPrecipitation(response.getCurrent().getPrecipitation());
+        dto.setUvIndex(response.getCurrent().getUvIndex());
+        dto.setWindSpeed(response.getCurrent().getWindSpeed());
+        dto.setWindDirection(response.getCurrent().getWindDirection());
+        dto.setWindGusts(response.getCurrent().getWindGusts());
         dto.setObservationTime(response.getCurrent().getTime());
 
         return dto;

@@ -13,6 +13,10 @@ public class CurrentWeatherDTO {
     private double isDay;
     private double precipitation;
     private double cloudCover;
+    private double uvIndex;
+    private double windSpeed;
+    private double windDirection;
+    private double windGusts;
     private String observationTime;
 }
 
