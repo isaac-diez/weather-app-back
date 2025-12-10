@@ -5,9 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import java.net.URI;
 
 @Component
 @Slf4j
@@ -26,6 +23,7 @@ public class GeocodingApiClient {
                 .uri(uriBuilder -> uriBuilder
                         .path("/v1/search")
                         .queryParam("name", city)
+                        .queryParam("count", 20)
                         .build())
                 .retrieve()
                 .bodyToMono(CityResponse.class)
