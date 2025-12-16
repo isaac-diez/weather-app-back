@@ -18,7 +18,7 @@ public class GeminiApiClient {
 
     public GeminiApiClient(
             WebClient.Builder webClientBuilder,
-            @Value("${GEMINI_API_KEY}") String apiKey) {
+            @Value("${api.gemini.key}") String apiKey) {
 
         this.apiKey = apiKey != null ? apiKey.trim() : "";
 
@@ -29,13 +29,9 @@ public class GeminiApiClient {
 
     public String getSuggestion(String prompt) {
 
-        // **DEBUGGING:** Registrar la longitud de la clave para verificar que se cargó.
-        log.info("API Key Length: {}", this.apiKey.length());
-
         if (this.apiKey.isEmpty()) {
-            // Lanzar un error claro si la clave no se cargó o está vacía.
-            log.error("GEMINI_API_KEY is missing or empty.");
-            throw new RuntimeException("Error: GEMINI_API_KEY configuration is missing or empty. Check your application properties.");
+            log.error("API key is missing or empty.");
+            throw new RuntimeException("Error: API key configuration is missing or empty. Check your application properties.");
         }
         log.info("Calling Gemini API...");
 
@@ -56,9 +52,7 @@ public class GeminiApiClient {
         try {
             String responseBody = geminiWebClient.post()
                     .uri(uriBuilder -> uriBuilder
-                            // El path relativo al baseUrl, incluyendo el método de la API
                             .pathSegment(modelName + ":generateContent")
-                            // Parámetro de consulta para la API Key
                             .queryParam("key", this.apiKey)
                             .build())
                     .bodyValue(payload)
