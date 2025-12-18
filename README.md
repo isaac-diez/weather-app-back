@@ -60,6 +60,7 @@ docker build -t weather-backend .
 
 # Correr el contenedor
 docker run -p 8080:8080 -e OPENWEATHER_API_KEY=xxx -e GEMINI_API_KEY=yyy weather-backend
+```
 
 📡 API Endpoints
 
@@ -71,11 +72,11 @@ docker run -p 8080:8080 -e OPENWEATHER_API_KEY=xxx -e GEMINI_API_KEY=yyy weather
 |GET|/api/weather/health|Health Check (usado por Cronjobs).|
 
 ⚠️ Nota sobre Render (Cold Starts)
-Este servicio está alojado en el plan gratuito de Render. Tras 15 minutos de inactividad, el servicio entra en suspensión.
+Este servicio está alojado en Render. Tras 15 minutos de inactividad, el servicio entra en suspensión.
 
 Consecuencia: La primera petición tras un periodo de inactividad puede tardar 30-50 segundos.
 
-Solución: Se ha implementado un endpoint /health que puede ser llamado por un servicio externo (como Cron-job.org) cada 14 minutos para evitar el apagado.
+Solución: Se ha implementado un endpoint /health que puede ser llamado por un servicio externo (como Cron-job.org) cada 10 minutos para evitar el apagado.
 
 🗺️ Roadmap
 [ ] Implementar soporte multi-idioma (i18n) en los prompts de Gemini.
