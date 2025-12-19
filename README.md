@@ -82,6 +82,7 @@ Solución: Se ha implementado un endpoint /health que puede ser llamado por un s
 
 ## 🗺️ Roadmap
 [ ] Implementar soporte multi-idioma (i18n) en los prompts de Gemini.
+[ ] Añadir pronóstico horario
 [ ] Añadir caché (Redis) para reducir llamadas a APIs externas.
 
 ## 🤝 Contribución
