@@ -33,7 +33,7 @@ public class GeminiApiClient {
             log.error("API key is missing or empty.");
             throw new RuntimeException("Error: API key configuration is missing or empty. Check your application properties.");
         }
-        log.info("Calling Gemini API...");
+
 
         String modelName = "gemini-2.5-flash-preview-09-2025";
 
@@ -48,6 +48,8 @@ public class GeminiApiClient {
                 ]
             }
             """, prompt.replace("\"", "\\\""));
+
+        log.info("Calling Gemini API..." + prompt);
 
         try {
             String responseBody = geminiWebClient.post()
