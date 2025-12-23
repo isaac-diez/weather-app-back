@@ -9,4 +9,5 @@ public class GeminiRequest {
     private String city;
     private double latitude;
     private double longitude;
+    private String language;
 }
