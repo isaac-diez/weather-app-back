@@ -40,21 +40,23 @@ public class GeminiServiceImpl implements GeminiService {
         String safeCityName = cityName != null ? cityName : "the current location";
 
         String weatherCondition = isRaining ? "It is raining" : "It is not raining";
-
-        String promptBase = String.format("I am in %s, current temperature is %.0f°C. Weather: %s, the humidity %.0f%% and the cloud cover is %.0f%%.  ",
-                safeCityName, temp, weatherCondition, humidity, cloudCover);
-
         String language = getLanguageName(languageCode);
+        String promptBase = String.format("I am in %s, current temperature is %.0f°C. " +
+                        "Weather: %s, the humidity %.0f%% and the cloud cover is %.0f%%. " +
+                        "Use no more than 4 sentences. Do not indicate word count. " +
+                        "Do not use markdown. Space the sentences with paragraphs if necessary for better readability. " +
+                        "IMPORTANT: You must respond ONLY in %s language.",
+                safeCityName, temp, weatherCondition, humidity, cloudCover, language);
 
         switch (mode) {
             case "outfit":
-                return promptBase + "Act as a wise-ass angry gay fashion stylist. Recommend a brief outfit using emojis giving the reason why in no more than 2 paragraphs. Do not indicate word count. Do not use markdown. IMPORTANT: You must respond ONLY in " + language + " language.";
+                return promptBase + "Act as a wise-ass angry gay fashion stylist. Recommend a brief outfit using emojis giving the reason why.";
             case "activity":
-                return promptBase + "Act as a completely unhinged hysterical karen type of person local guide. Recommend 2 brief activities right now using emojis. If you can't find anything interesting, suggest a plan for the nearest major city. Use no more than 2 paragraphs. Do not indicate word count. Do not use markdown. IMPORTANT: You must respond ONLY in " + language + " language.";
+                return promptBase + "Act as a completely unhinged hysterical karen type of person local guide. Recommend 2 brief activities right now using emojis.";
             case "laundry":
-                return promptBase + "Act as a trust fund preppy nepo baby Home expert. Is it a good time to do laundry and hang clothes outside? Explain why in in no more than 2 paragraphs and witty sentences. Do not indicate word count. Do not use markdown IMPORTANT: You must respond ONLY in " + language + " language.";
+                return promptBase + "Act as a trust fund preppy nepo baby Home expert. Is it a good time to do laundry and hang clothes outside? Explain why. ";
             case "drink":
-                return promptBase + "Act as Ron Swanson if he was a Bar Expert. Recommend an ideal drink for this weather in local bar or cafeteria and suggest drink it at the bar or on the terrace in no more than 4 sentences. Do not indicate word count. Do not use markdown. IMPORTANT: You must respond ONLY in " + language + " language.";
+                return promptBase + "Act as Ron Swanson if he was a Bar Expert. Recommend an ideal drink for this weather in local bar or cafeteria and suggest drink it at the bar or on the terrace and why.";
             default:
                 return "Provide a concise and curious fact about the weather in " + cityName + ".";
         }
