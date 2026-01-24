@@ -79,7 +79,7 @@ public class GeminiApiClient {
                     .path("text")
                     .asText("Empty AI response.");
         } catch (Exception e) {
-            log.error("Error processing Geminai response: {}", e.getMessage());
+            log.error("Error processing AI response: {}", e.getMessage());
             return "Error processing Gemini response";
         }
     }
