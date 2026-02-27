@@ -1,0 +1,11 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+
+# Maven wrapper
+.mvn/
+mvnw
+mvnw.cmd
+
+# Herramientas de limpieza de historial (BFG)
+bfg.jar
