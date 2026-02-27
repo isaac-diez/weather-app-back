@@ -9,3 +9,8 @@ mvnw.cmd
 
 # Herramientas de limpieza de historial (BFG)
 bfg.jar
+
+.idea/
+target/
+*.class
+*.jar
