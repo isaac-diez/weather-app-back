@@ -1,0 +1,9 @@
+.idea/
+target/
+*.class
+*.jar
+.mvn/
+mvnw
+mvnw.cmd
+bfg.jar
+src/main/resources/application-dev.properties
