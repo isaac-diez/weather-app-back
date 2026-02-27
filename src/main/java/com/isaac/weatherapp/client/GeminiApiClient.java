@@ -35,7 +35,7 @@ public class GeminiApiClient {
         }
 
 
-        String modelName = "gemini-2.5-flash-preview-09-2025";
+        String modelName = "gemma-3-27b-it";
 
         String payload = String.format("""
             {
