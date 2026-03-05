@@ -70,9 +70,17 @@ public class WeatherResponse {
     @Data
     public static class Hourly {
         private List<String> time;
+
+        @JsonProperty("temperature_2m")
         private List<Double> temperature_2m;
-        private List<Double> relative_humidity_2m;
-        private List<Double> apparent_temperature;
+
+        @JsonProperty("weather_code")
+        private List<Integer> weather_code;
+
+        @JsonProperty("rain")
+        private List<Double> rain;
+
+        @JsonProperty("precipitation_probability")
         private List<Double> precipitation_probability;
     }
 }

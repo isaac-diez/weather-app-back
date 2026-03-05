@@ -11,4 +11,5 @@ public class ForecastDTO {
 
     private String city;
     private List<ForecastDayDTO> days;
+    private List<ForecastHourDTO> hours;
 }

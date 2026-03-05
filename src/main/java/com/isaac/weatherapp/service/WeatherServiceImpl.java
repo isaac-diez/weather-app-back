@@ -4,8 +4,11 @@ import com.isaac.weatherapp.client.WeatherApiClient;
 import com.isaac.weatherapp.dto.*;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Service
 public class WeatherServiceImpl implements WeatherService {
@@ -56,6 +59,29 @@ public class WeatherServiceImpl implements WeatherService {
         }
         forecast.setDays(days);
 
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:00"));
+
+        List<ForecastHourDTO> hours = IntStream.range(0, response.getHourly().getTime().size())
+                .filter(i -> {
+                    String hourTime = response.getHourly().getTime().get(i);
+                    return hourTime.compareTo(now) >= 0;
+                })
+                .limit(24)
+                .mapToObj(i -> {
+                    ForecastHourDTO h = new ForecastHourDTO();
+                    h.setHour(response.getHourly().getTime().get(i));
+                    h.setTemperature_2m(response.getHourly().getTemperature_2m().get(i));
+                    h.setRain(response.getHourly().getRain().get(i));
+                    h.setWeather_code(response.getHourly().getWeather_code().get(i));
+                    h.setPrecipitation_probability(response.getHourly().getPrecipitation_probability().get(i));
+                    return h;
+                })
+                .toList();
+
+        forecast.setHours(hours);
+
         return forecast;
     }
+
+
 }
