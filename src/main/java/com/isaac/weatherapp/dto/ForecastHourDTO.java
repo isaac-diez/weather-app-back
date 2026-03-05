@@ -2,15 +2,13 @@ package com.isaac.weatherapp.dto;
 
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 public class ForecastHourDTO {
 
-    private String date;
-    private List<Double> temperature_2m;
-    private List<Integer> weather_code;
-    private List<Double> rain;
-    private List<Double> precipitation_probability;
+    private String hour;
+    private Double temperature_2m;
+    private Integer weather_code;
+    private Double rain;
+    private Double precipitation_probability;
 
 }
