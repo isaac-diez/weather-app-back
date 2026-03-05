@@ -9,7 +9,7 @@ public class ForecastHourDTO {
 
     private String date;
     private List<Double> temperature_2m;
-    private List<Double> weather_code;
+    private List<Integer> weather_code;
     private List<Double> rain;
     private List<Double> precipitation_probability;
 
