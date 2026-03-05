@@ -74,11 +74,11 @@ public class WeatherResponse {
         @JsonProperty("temperature_2m")
         private List<Double> temperature_2m;
 
-        @JsonProperty("relative_humidity_2m")
-        private List<Double> relative_humidity_2m;
+        @JsonProperty("weather_code")
+        private List<Integer> weather_code;
 
-        @JsonProperty("apparent_temperature")
-        private List<Double> apparent_temperature;
+        @JsonProperty("rain")
+        private List<Double> rain;
 
         @JsonProperty("precipitation_probability")
         private List<Double> precipitation_probability;
