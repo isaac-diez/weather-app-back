@@ -56,6 +56,18 @@ public class WeatherServiceImpl implements WeatherService {
         }
         forecast.setDays(days);
 
+        List<ForecastHourDTO> hours = new ArrayList<>();
+
+        for (int i = 0; i < response.getHourly().getTime().size(); i++) {
+            ForecastHourDTO h = new ForecastHourDTO();
+            h.setDate(response.getHourly().getTime().get(i));
+            h.setTemperature_2m(response.getHourly().getTemperature_2m());
+            h.setRain(response.getHourly().getRain());
+            h.setWeather_code(response.getHourly().getWeather_code());
+            hours.add(h);
+        }
+        forecast.setHours(hours);
+
         return forecast;
     }
 }
