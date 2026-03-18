@@ -11,6 +11,7 @@ public class WeatherResponse {
     private double latitude;
     private double longitude;
 
+    private String timezone;
     private Current current;
     private Daily daily;
     private Hourly hourly;
