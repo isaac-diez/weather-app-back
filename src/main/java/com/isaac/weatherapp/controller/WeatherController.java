@@ -20,14 +20,9 @@ public class WeatherController {
     private final CitySearchServiceImpl citySearchServiceImpl;
     private final GeminiService geminiService;
 
-    @PostMapping("/current")
-    public CurrentWeatherDTO getCurrentWeather(@RequestBody CityDTO city) {
-        return weatherServiceImpl.getCurrentWeather(city);
-    }
-
-    @PostMapping("/forecast")
-    public ForecastDTO getForecast(@RequestBody CityDTO city) {
-        return weatherServiceImpl.getForecast(city);
+    @PostMapping("/full")
+    public FullWeatherDTO getFullWeather(@RequestBody CityDTO city) {
+        return weatherServiceImpl.getFullWeather(city);
     }
 
     @GetMapping("/cities")
