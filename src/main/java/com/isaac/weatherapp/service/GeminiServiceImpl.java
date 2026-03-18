@@ -3,6 +3,7 @@ package com.isaac.weatherapp.service;
 import com.isaac.weatherapp.client.GeminiApiClient;
 import com.isaac.weatherapp.dto.CityDTO;
 import com.isaac.weatherapp.dto.CurrentWeatherDTO;
+import com.isaac.weatherapp.dto.FullWeatherDTO;
 import com.isaac.weatherapp.dto.GeminiRequest;
 import org.springframework.stereotype.Service;
 
@@ -24,18 +25,18 @@ public class GeminiServiceImpl implements GeminiService {
         cityDto.setLatitude(request.getLatitude());
         cityDto.setLongitude(request.getLongitude());
 
-        CurrentWeatherDTO weather = weatherService.getCurrentWeather(cityDto);
+        FullWeatherDTO weather = weatherService.getFullWeather(cityDto);
 
         String prompt = buildPrompt(request.getMode(), weather, request.getCity(), request.getLanguage());
 
         return geminiApiClient.getSuggestion(prompt);
     }
 
-    private String buildPrompt(String mode, CurrentWeatherDTO weather, String cityName, String languageCode) {
-        double temp = weather.getTemperature();
-        boolean isRaining = weather.getPrecipitation() > 0.1;
-        double humidity = weather.getRelativeHumidity();
-        double cloudCover = weather.getCloudCover();
+    private String buildPrompt(String mode, FullWeatherDTO weather, String cityName, String languageCode) {
+        double temp = weather.getCurrent().getTemperature();
+        boolean isRaining = weather.getCurrent().getPrecipitation() > 0.1;
+        double humidity = weather.getCurrent().getRelativeHumidity();
+        double cloudCover = weather.getCurrent().getCloudCover();
 
         String safeCityName = cityName != null ? cityName : "the current location";
 
