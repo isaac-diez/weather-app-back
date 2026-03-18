@@ -4,7 +4,6 @@ import com.isaac.weatherapp.client.WeatherApiClient;
 import com.isaac.weatherapp.dto.*;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -21,30 +20,23 @@ public class WeatherServiceImpl implements WeatherService {
         this.weatherApiClient = weatherApiClient;
     }
 
-    public CurrentWeatherDTO getCurrentWeather(CityDTO city) {
+    public FullWeatherDTO getFullWeather(CityDTO city) {
 
         WeatherResponse response = weatherApiClient.getWeatherData(city.getLatitude(), city.getLongitude());
 
-        CurrentWeatherDTO dto = new CurrentWeatherDTO();
-        dto.setCity(city.getName());
-        dto.setTemperature(response.getCurrent().getTemperature());
-        dto.setApparentTemperature(response.getCurrent().getApparentTemperature());
-        dto.setRelativeHumidity(response.getCurrent().getRelativeHumidity());
-        dto.setCloudCover(response.getCurrent().getCloudCover());
-        dto.setIsDay(response.getCurrent().getIsDay());
-        dto.setPrecipitation(response.getCurrent().getPrecipitation());
-        dto.setUvIndex(response.getCurrent().getUvIndex());
-        dto.setWindSpeed(response.getCurrent().getWindSpeed());
-        dto.setWindDirection(response.getCurrent().getWindDirection());
-        dto.setWindGusts(response.getCurrent().getWindGusts());
-        dto.setObservationTime(response.getCurrent().getTime());
-
-        return dto;
-    }
-
-    public ForecastDTO getForecast(CityDTO city) {
-
-        WeatherResponse response = weatherApiClient.getWeatherData(city.getLatitude(), city.getLongitude());
+        CurrentWeatherDTO current = new CurrentWeatherDTO();
+        current.setCity(city.getName());
+        current.setTemperature(response.getCurrent().getTemperature());
+        current.setApparentTemperature(response.getCurrent().getApparentTemperature());
+        current.setRelativeHumidity(response.getCurrent().getRelativeHumidity());
+        current.setCloudCover(response.getCurrent().getCloudCover());
+        current.setIsDay(response.getCurrent().getIsDay());
+        current.setPrecipitation(response.getCurrent().getPrecipitation());
+        current.setUvIndex(response.getCurrent().getUvIndex());
+        current.setWindSpeed(response.getCurrent().getWindSpeed());
+        current.setWindDirection(response.getCurrent().getWindDirection());
+        current.setWindGusts(response.getCurrent().getWindGusts());
+        current.setObservationTime(response.getCurrent().getTime());
 
         ForecastDTO forecast = new ForecastDTO();
         forecast.setCity(city.getName());
@@ -86,7 +78,7 @@ public class WeatherServiceImpl implements WeatherService {
 
         forecast.setHours(hours);
 
-        return forecast;
+        return new FullWeatherDTO(current, forecast);
     }
 
 
