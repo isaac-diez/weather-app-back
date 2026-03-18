@@ -5,6 +5,8 @@ import com.isaac.weatherapp.dto.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,12 +61,16 @@ public class WeatherServiceImpl implements WeatherService {
         }
         forecast.setDays(days);
 
-        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:00"));
+        String cityTimeZone = (response.getTimezone() != null) ? response.getTimezone() : "UTC";
+        ZoneId zoneId = ZoneId.of(cityTimeZone);
+
+        ZonedDateTime nowInCity = ZonedDateTime.now(zoneId);
+        String nowString = nowInCity.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:00"));
 
         List<ForecastHourDTO> hours = IntStream.range(0, response.getHourly().getTime().size())
                 .filter(i -> {
                     String hourTime = response.getHourly().getTime().get(i);
-                    return hourTime.compareTo(now) >= 0;
+                    return hourTime.compareTo(nowString) >= 0;
                 })
                 .limit(24)
                 .mapToObj(i -> {
