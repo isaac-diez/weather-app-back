@@ -27,7 +27,7 @@ public class WeatherApiClient {
                             .queryParam("current", "wind_speed_10m,wind_direction_10m,wind_gusts_10m,uv_index,temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,cloud_cover")
                             .queryParam("daily", "apparent_temperature_min,precipitation_probability_max,apparent_temperature_max")
                             .queryParam("hourly", "temperature_2m,weather_code,rain,precipitation_probability")
-                            .queryParam("timezone", "Europe/Berlin")
+                            .queryParam("timezone", "auto")
                             .build())
                     .retrieve()
                     .bodyToMono(WeatherResponse.class)
