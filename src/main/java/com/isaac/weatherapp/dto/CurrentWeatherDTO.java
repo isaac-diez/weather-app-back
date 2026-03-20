@@ -7,16 +7,16 @@ import lombok.Setter;
 @Setter
 public class CurrentWeatherDTO {
     private String city;
-    private double temperature;
-    private double relativeHumidity;
-    private double apparentTemperature;
-    private double isDay;
-    private double precipitation;
-    private double cloudCover;
-    private double uvIndex;
-    private double windSpeed;
-    private double windDirection;
-    private double windGusts;
+    private Double temperature;
+    private Double relativeHumidity;
+    private Double apparentTemperature;
+    private Integer isDay;
+    private Double precipitation;
+    private Double cloudCover;
+    private Double uvIndex;
+    private Double windSpeed;
+    private Double windDirection;
+    private Double windGusts;
     private String observationTime;
 }
 
