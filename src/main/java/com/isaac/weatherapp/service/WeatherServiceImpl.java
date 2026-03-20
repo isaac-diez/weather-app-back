@@ -20,22 +20,26 @@ public class WeatherServiceImpl implements WeatherService {
         this.weatherApiClient = weatherApiClient;
     }
 
+    private double safe(Double value) {
+        return value != null ? value : 0.0;
+    }
+
     public FullWeatherDTO getFullWeather(CityDTO city) {
 
         WeatherResponse response = weatherApiClient.getWeatherData(city.getLatitude(), city.getLongitude());
 
         CurrentWeatherDTO current = new CurrentWeatherDTO();
         current.setCity(city.getName());
-        current.setTemperature(response.getCurrent().getTemperature());
-        current.setApparentTemperature(response.getCurrent().getApparentTemperature());
-        current.setRelativeHumidity(response.getCurrent().getRelativeHumidity());
-        current.setCloudCover(response.getCurrent().getCloudCover());
+        current.setTemperature(safe(response.getCurrent().getTemperature()));
+        current.setApparentTemperature(safe(response.getCurrent().getApparentTemperature()));
+        current.setRelativeHumidity(safe(response.getCurrent().getRelativeHumidity()));
+        current.setCloudCover(safe(response.getCurrent().getCloudCover()));
         current.setIsDay(response.getCurrent().getIsDay());
-        current.setPrecipitation(response.getCurrent().getPrecipitation());
-        current.setUvIndex(response.getCurrent().getUvIndex());
-        current.setWindSpeed(response.getCurrent().getWindSpeed());
-        current.setWindDirection(response.getCurrent().getWindDirection());
-        current.setWindGusts(response.getCurrent().getWindGusts());
+        current.setPrecipitation(safe(response.getCurrent().getPrecipitation()));
+        current.setUvIndex(safe(response.getCurrent().getUvIndex()));
+        current.setWindSpeed(safe(response.getCurrent().getWindSpeed()));
+        current.setWindDirection(safe(response.getCurrent().getWindDirection()));
+        current.setWindGusts(safe(response.getCurrent().getWindGusts()));
         current.setObservationTime(response.getCurrent().getTime());
 
         ForecastDTO forecast = new ForecastDTO();
@@ -46,9 +50,9 @@ public class WeatherServiceImpl implements WeatherService {
         for (int i = 0; i < response.getDaily().getTime().size(); i++) {
             ForecastDayDTO d = new ForecastDayDTO();
             d.setDate(response.getDaily().getTime().get(i));
-            d.setTemperatureMax(response.getDaily().getTemperatureMax().get(i));
-            d.setTemperatureMin(response.getDaily().getTemperatureMin().get(i));
-            d.setPrecipitationProbabilityMax(response.getDaily().getPrecipitationProbabilityMax().get(i));
+            d.setTemperatureMax(safe(response.getDaily().getTemperatureMax().get(i)));
+            d.setTemperatureMin(safe(response.getDaily().getTemperatureMin().get(i)));
+            d.setPrecipitationProbabilityMax(safe(response.getDaily().getPrecipitationProbabilityMax().get(i)));
             days.add(d);
         }
         forecast.setDays(days);
@@ -68,17 +72,48 @@ public class WeatherServiceImpl implements WeatherService {
                 .mapToObj(i -> {
                     ForecastHourDTO h = new ForecastHourDTO();
                     h.setHour(response.getHourly().getTime().get(i));
-                    h.setTemperature_2m(response.getHourly().getTemperature_2m().get(i));
-                    h.setRain(response.getHourly().getRain().get(i));
+                    h.setTemperature_2m(safe(response.getHourly().getTemperature_2m().get(i)));
+                    h.setRain(safe(response.getHourly().getRain().get(i)));
                     h.setWeather_code(response.getHourly().getWeather_code().get(i));
-                    h.setPrecipitation_probability(response.getHourly().getPrecipitation_probability().get(i));
+                    h.setPrecipitation_probability(safe(response.getHourly().getPrecipitation_probability().get(i)));
                     return h;
                 })
                 .toList();
 
         forecast.setHours(hours);
 
-        return new FullWeatherDTO(current, forecast);
+        SolarSummaryDTO solar = new SolarSummaryDTO();
+
+        double uvMax = response.getDaily().getUvIndexMax().getFirst();
+        solar.setMaxUvIndexToday(uvMax);
+        solar.setSunshineHours(response.getDaily().getSunshineDuration().getFirst() / 3600.0);
+        solar.setDaylightHours(response.getDaily().getDaylightDuration().getFirst() / 3600.0);
+
+        int peakIndex = 0;
+        double maxUvTemp = 0;
+        for (int i = 0; i < response.getHourly().getUvIndex().size(); i++) {
+            if (response.getHourly().getUvIndex().get(i) > maxUvTemp) {
+                maxUvTemp = response.getHourly().getUvIndex().get(i);
+                peakIndex = i;
+            }
+        }
+        solar.setPeakUvTime(response.getHourly().getTime().get(peakIndex));
+
+        if (uvMax <= 2) {
+            solar.setRiskLevel("Bajo");
+            solar.setRecommendation("No se requiere protección especial.");
+        } else if (uvMax <= 5) {
+            solar.setRiskLevel("Moderado");
+            solar.setRecommendation("Usa gafas de sol y crema solar si estarás fuera más de 30 min.");
+        } else if (uvMax <= 7) {
+            solar.setRiskLevel("Alto");
+            solar.setRecommendation("Busca la sombra. Camisa, crema SPF 30+ y sombrero son necesarios.");
+        } else {
+            solar.setRiskLevel("Extremo");
+            solar.setRecommendation("Evita salir en las horas centrales. Riesgo de quemadura muy rápido.");
+        }
+
+        return new FullWeatherDTO(current, forecast, solar);
     }
 
 
