@@ -8,4 +8,5 @@ import lombok.Data;
 public class FullWeatherDTO {
     private CurrentWeatherDTO current;
     private ForecastDTO forecast;
+    private SolarSummaryDTO solarSummary;
 }
