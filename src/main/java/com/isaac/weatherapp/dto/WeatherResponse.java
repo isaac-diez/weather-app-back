@@ -1,11 +1,13 @@
 package com.isaac.weatherapp.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class WeatherResponse {
 
     private double latitude;
@@ -38,8 +40,8 @@ public class WeatherResponse {
 
         private List<String> time;
 
-        @JsonProperty("apparent_temperature_max") private List<Double> temperatureMax;
-        @JsonProperty("apparent_temperature_min") private List<Double> temperatureMin;
+        @JsonProperty("temperature_2m_max") private List<Double> temperatureMax;
+        @JsonProperty("temperature_2m_min") private List<Double> temperatureMin;
         @JsonProperty("precipitation_probability_max") private List<Double> precipitationProbabilityMax;
         @JsonProperty("apparent_temperature_max") private List<Double> apparentTemperatureMax;
         @JsonProperty("apparent_temperature_min") private List<Double> apparentTemperatureMin;
