@@ -6,8 +6,8 @@ import lombok.Data;
 public class SolarSummaryDTO {
     private Double maxUvIndexToday;
     private String peakUvTime;
-    private Double sunshineHours;
-    private Double daylightHours;
+    private String sunshineHours;
+    private String daylightHours;
     private String riskLevel;
     private String recommendation;
 }
