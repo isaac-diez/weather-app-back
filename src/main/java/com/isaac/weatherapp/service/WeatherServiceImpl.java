@@ -76,6 +76,8 @@ public class WeatherServiceImpl implements WeatherService {
                     h.setRain(safe(response.getHourly().getRain().get(i)));
                     h.setWeather_code(response.getHourly().getWeather_code().get(i));
                     h.setPrecipitation_probability(safe(response.getHourly().getPrecipitation_probability().get(i)));
+                    h.setUv_index(safe(response.getHourly().getUvIndex().get(i)));
+                    h.setShortwave_radiation(safe(response.getHourly().getShortwaveRadiation().get(i)));
                     return h;
                 })
                 .toList();
@@ -86,8 +88,8 @@ public class WeatherServiceImpl implements WeatherService {
 
         double uvMax = response.getDaily().getUvIndexMax().getFirst();
         solar.setMaxUvIndexToday(uvMax);
-        solar.setSunshineHours(response.getDaily().getSunshineDuration().getFirst() / 3600.0);
-        solar.setDaylightHours(response.getDaily().getDaylightDuration().getFirst() / 3600.0);
+        solar.setSunshineHours(formatSecondsToHHmm(response.getDaily().getSunshineDuration().getFirst()));
+        solar.setDaylightHours(formatSecondsToHHmm(response.getDaily().getDaylightDuration().getFirst()));
 
         int peakIndex = 0;
         double maxUvTemp = 0;
@@ -116,5 +118,12 @@ public class WeatherServiceImpl implements WeatherService {
         return new FullWeatherDTO(current, forecast, solar);
     }
 
+    private String formatSecondsToHHmm(Double seconds) {
+        if (seconds == null) return "00:00";
+        long totalMinutes = Math.round(seconds / 60.0);
+        long hours = totalMinutes / 60;
+        long minutes = totalMinutes % 60;
+        return String.format("%02dh:%02dm", hours, minutes);
+    }
 
 }
