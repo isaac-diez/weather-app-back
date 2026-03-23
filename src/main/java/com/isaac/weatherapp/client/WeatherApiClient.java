@@ -3,6 +3,7 @@ package com.isaac.weatherapp.client;
 import com.isaac.weatherapp.dto.WeatherResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -31,6 +32,7 @@ public class WeatherApiClient {
                             .queryParam("forecast_hours", 24)
                             .queryParam("past_hours",1)
                             .build())
+                    .accept(MediaType.APPLICATION_JSON)
                     .retrieve()
                     .bodyToMono(WeatherResponse.class)
                     .block();
