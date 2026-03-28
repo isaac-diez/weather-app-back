@@ -49,6 +49,8 @@ public class WeatherResponse {
         @JsonProperty("uv_index_clear_sky_max") private List<Double> uvIndexClearSkyMax;
         @JsonProperty("sunshine_duration") private List<Double> sunshineDuration;
         @JsonProperty("daylight_duration") private List<Double> daylightDuration;
+        @JsonProperty("sunrise") private List<String> sunrise;
+        @JsonProperty("sunset") private List<String> sunset;
 
     }
 
@@ -64,9 +66,7 @@ public class WeatherResponse {
         @JsonProperty("cloud_cover") private List<Double> cloudCover;
         @JsonProperty("uv_index") private List<Double> uvIndex;
         @JsonProperty("uv_index_clear_sky") private List<Double> uvIndexClearSky;
-        @JsonProperty("sunshine_duration") private List<Double> sunshineDuration;
+        @JsonProperty("sunshine_duration") private List<String> sunshineDuration;
         @JsonProperty("shortwave_radiation") private List<Double> shortwaveRadiation;
-        @JsonProperty("direct_radiation") private List<Double> directRadiation;
-        @JsonProperty("diffuse_radiation") private List<Double> diffuseRadiation;
     }
 }
