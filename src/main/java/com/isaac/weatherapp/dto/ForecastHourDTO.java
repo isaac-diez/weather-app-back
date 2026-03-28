@@ -14,9 +14,4 @@ public class ForecastHourDTO {
     private Double cloudCover;
     private Double uv_index;
     private Double uv_index_clear_sky;
-    private Double sunshine_duration;
-    private Double shortwave_radiation;
-    private Double direct_radiation;
-    private Double diffuse_radiation;
-
 }
