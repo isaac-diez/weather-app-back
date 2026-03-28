@@ -8,8 +8,13 @@ import lombok.Setter;
 public class ForecastDayDTO {
 
     private String date;
-    private double temperatureMax;
-    private double temperatureMin;
-    private double precipitationProbabilityMax;
-
+    private Double temperatureMax;
+    private Double temperatureMin;
+    private Double precipitationProbabilityMax;
+    private Double apparentTemperatureMax;
+    private Double apparentTemperatureMin;
+    private Double uvIndexMax;
+    private Double uvIndexClearSkyMax;
+    private Double sunshineDuration;
+    private Double daylightDuration;
 }
