@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class CurrentWeatherDTO {
     private String city;
+    private String cityTimeZone;
     private Double temperature;
     private Double relativeHumidity;
     private Double apparentTemperature;
