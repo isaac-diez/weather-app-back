@@ -53,7 +53,7 @@ public class GeminiServiceImpl implements GeminiService {
         String weatherCondition = isRaining ? "It is raining" : "It is not raining";
         String language = getLanguageName(languageCode);
         String promptBase = String.format(" in %s, at %s, current temperature is %.0f°C. " +
-                        "Weather: temperature %s, the humidity %.0f%%, the cloud cover is %.0f%% and UV Index %s with a maximum of %s at %s" +
+                        "Weather: temperature %s, the humidity %.0f%%, the cloud cover is %.0f%% and UV Index %s with a maximum of %s at %s. " +
                         "Use no more than 4 sentences. Do not indicate word count. " +
                         "Do not use markdown. Space the sentences with paragraphs for better readability. " +
                         "IMPORTANT: You must respond ONLY in %s language.",
@@ -87,6 +87,9 @@ public class GeminiServiceImpl implements GeminiService {
             case "it" -> "Italian";
             case "pt" -> "Portuguese";
             case "ru" -> "Russian";
+            case "gl" -> "Galician";
+            case "ca" -> "Catalan";
+            case "eu" -> "Basque";
             case "ja" -> "Japanese";
             case "zh" -> "Chinese";
             case "ko" -> "Korean";
