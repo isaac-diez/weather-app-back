@@ -2,7 +2,6 @@ package com.isaac.weatherapp.service;
 
 import com.isaac.weatherapp.client.WeatherApiClient;
 import com.isaac.weatherapp.dto.*;
-import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneId;
@@ -27,7 +26,6 @@ public class WeatherServiceImpl implements WeatherService {
 
         CurrentWeatherDTO current = new CurrentWeatherDTO();
         current.setCity(city.getName());
-        current.setCityTimeZone(response.getTimezone());
         current.setTemperature(safe(response.getCurrent().getTemperature()));
         current.setApparentTemperature(safe(response.getCurrent().getApparentTemperature()));
         current.setRelativeHumidity(safe(response.getCurrent().getRelativeHumidity()));
@@ -108,21 +106,6 @@ public class WeatherServiceImpl implements WeatherService {
         }
         solar.setPeakUvTime(response.getHourly().getTime().get(peakIndex));
 
-        double uvIndexHourly = response.getHourly().getUvIndex().get(currentIndex);
-        if (uvIndexHourly <= 2) {
-            solar.setRiskLevel("Bajo");
-            solar.setRecommendation("No se requiere protección especial.");
-        } else if (uvIndexHourly <= 5) {
-            solar.setRiskLevel("Medio");
-            solar.setRecommendation("Usa gafas de sol y crema solar si estarás fuera más de 30 min.");
-        } else if (uvIndexHourly <= 7) {
-            solar.setRiskLevel("Alto");
-            solar.setRecommendation("Busca la sombra. Camisa, crema SPF 30+ y sombrero son necesarios.");
-        } else {
-            solar.setRiskLevel("Extremo");
-            solar.setRecommendation("Evita salir en las horas centrales. Riesgo de quemadura muy rápido.");
-        }
-
         String rawSunrise = response.getDaily().getSunrise().getFirst();
         String rawSunset = response.getDaily().getSunset().getFirst();
 
@@ -146,9 +129,27 @@ public class WeatherServiceImpl implements WeatherService {
                 solar.setDayProgressPercent(Math.round(percent * 10.0) / 10.0);
                 solar.setIsNight(false);
             } else {
-                solar.setDayProgressPercent(50.0); // Caso borde (polos)
+                solar.setDayProgressPercent(50.0);
                 solar.setIsNight(false);
             }
+        }
+
+        double uvIndexHourly = response.getHourly().getUvIndex().get(currentIndex);
+        if (solar.getIsNight()) {
+            solar.setRiskLevel("RISK.NIGHT");
+            solar.setRecommendation("SOLAR_ADVICE.NIGHT");
+        } else if (uvIndexHourly <= 2) {
+            solar.setRiskLevel("RISK.LOW");
+            solar.setRecommendation("SOLAR_ADVICE.LOW");
+        } else if (uvIndexHourly <= 5) {
+            solar.setRiskLevel("RISK.MODERATE");
+            solar.setRecommendation("SOLAR_ADVICE.MODERATE");
+        } else if (uvIndexHourly <= 7) {
+            solar.setRiskLevel("RISK.HIGH");
+            solar.setRecommendation("SOLAR_ADVICE.HIGH");
+        } else {
+            solar.setRiskLevel("RISK.EXTREME");
+            solar.setRecommendation("SOLAR_ADVICE.EXTREME");//Evita salir en las horas centrales. Riesgo de quemadura muy rápido.
         }
 
         return new FullWeatherDTO(current, forecast, solar);
