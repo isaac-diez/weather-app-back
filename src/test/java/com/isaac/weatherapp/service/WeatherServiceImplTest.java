@@ -63,10 +63,8 @@ class WeatherServiceImplTest {
         hourly.setUvIndex(List.of(4.0, 5.5));
         hourly.setCloudCover(List.of(10.0, 15.0));
         hourly.setUvIndexClearSky(List.of(4.0, 5.5));
-        hourly.setSunshineDuration(List.of(3600.0, 3600.0));
+        hourly.setSunshineDuration(List.of("3600.0", "3600.0"));
         hourly.setShortwaveRadiation(List.of(400.0, 600.0));
-        hourly.setDirectRadiation(List.of(300.0, 500.0));
-        hourly.setDiffuseRadiation(List.of(100.0, 100.0));
         mockResponse.setHourly(hourly);
 
         WeatherResponse.Daily daily = new WeatherResponse.Daily();
@@ -80,6 +78,8 @@ class WeatherServiceImplTest {
         daily.setUvIndexClearSkyMax(List.of(5.5, 6.0));
         daily.setSunshineDuration(List.of(36000.0, 38000.0));
         daily.setDaylightDuration(List.of(43200.0, 43500.0));
+        daily.setSunrise(List.of("2026-03-30T08:17", "2026-03-30T08:15"));
+        daily.setSunset(List.of("2026-03-30T20:54", "2026-03-30T20:56"));
         mockResponse.setDaily(daily);
     }
 
@@ -103,9 +103,9 @@ class WeatherServiceImplTest {
         SolarSummaryDTO solar = result.getSolarSummary();
 
         assertEquals(5.5, solar.getMaxUvIndexToday());
-        assertEquals(10.0, solar.getSunshineHours());
-        assertEquals("Alto", solar.getRiskLevel());
-        assertTrue(solar.getRecommendation().contains("Busca la sombra"));
+        assertEquals("10h:00m", solar.getSunshineHours());
+        assertEquals("RISK.MODERATE", solar.getRiskLevel());
+        assertTrue(solar.getRecommendation().contains("SOLAR_ADVICE.MODERATE"));
     }
 
     @Test
