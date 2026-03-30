@@ -27,6 +27,7 @@ public class WeatherServiceImpl implements WeatherService {
 
         CurrentWeatherDTO current = new CurrentWeatherDTO();
         current.setCity(city.getName());
+        current.setCityTimeZone(response.getTimezone());
         current.setTemperature(safe(response.getCurrent().getTemperature()));
         current.setApparentTemperature(safe(response.getCurrent().getApparentTemperature()));
         current.setRelativeHumidity(safe(response.getCurrent().getRelativeHumidity()));
