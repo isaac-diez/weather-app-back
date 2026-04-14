@@ -26,6 +26,6 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-              export GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
               cd ~/apps/smartapp-backend
+              echo "GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" > .env
               docker compose up -d --build
