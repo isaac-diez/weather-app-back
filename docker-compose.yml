@@ -3,6 +3,8 @@ services:
     build: .
     container_name: weather-api
     restart: always
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
 networks:
   default:
     external:

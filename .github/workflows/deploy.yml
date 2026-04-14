@@ -7,10 +7,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout del código
+      - name: Code Checkout
         uses: actions/checkout@v3
 
-      - name: Copiar archivos al VPS
+      - name: Copy files to VPS
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.HOST }}
@@ -19,12 +19,14 @@ jobs:
           source: "."
           target: "~/apps/smartapp-backend"
 
-      - name: Ejecutar Docker Compose en el VPS
+      - name: Execute Docker Compose in the VPS
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
+          envs: GEMINI_API_KEY
           script: |
-            cd ~/apps/smartapp-backend
-            docker compose up -d --build
+              export GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
+              cd ~/apps/smartapp-backend
+              docker compose up -d --build
