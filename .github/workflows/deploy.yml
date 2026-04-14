@@ -25,7 +25,6 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          envs: GEMINI_API_KEY
           script: |
               export GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
               cd ~/apps/smartapp-backend

@@ -5,7 +5,9 @@ services:
     restart: always
     environment:
       - GEMINI_API_KEY=${GEMINI_API_KEY}
+    networks:
+      - smartapp-network
+
 networks:
-  default:
-    external:
-      name: smartapp-network
+  smartapp-network:
+    external: true
