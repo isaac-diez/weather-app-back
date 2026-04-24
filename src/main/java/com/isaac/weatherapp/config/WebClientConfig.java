@@ -24,4 +24,12 @@ public class WebClientConfig {
                 .build();
     }
 
+    @Bean
+    @Qualifier("airQualityWebClient")
+    public WebClient airQualityWebClient(WebClient.Builder builder) {
+        return builder
+                .baseUrl("https://air-quality-api.open-meteo.com")
+                .build();
+    }
+
 }
