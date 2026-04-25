@@ -1,6 +1,6 @@
 package com.isaac.weatherapp.client;
 
-import com.isaac.weatherapp.dto.WeatherResponse;
+import com.isaac.weatherapp.dto.AirQualityResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
@@ -9,18 +9,17 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 
 @Component
-@Slf4j
 public class AirQualityApiClient {
 
-    private final WebClient weatherWebClient;
+    private final WebClient airQualityWebClient;
 
-    public AirQualityApiClient(@Qualifier("weatherWebClient") WebClient weatherWebClient) {
-        this.weatherWebClient = weatherWebClient;
+    public AirQualityApiClient(@Qualifier("airQualityWebClient") WebClient airQualityWebClient) {
+        this.airQualityWebClient = airQualityWebClient;
     }
 
-    public WeatherResponse getWeatherData(double latitude, double longitude) {
+    public AirQualityResponse getAirQualityData(double latitude, double longitude) {
 
-            return weatherWebClient.get()
+        AirQualityResponse response = airQualityWebClient.get()
                     .uri(uriBuilder -> uriBuilder
                             .path("/v1/air-quality")
                             .queryParam("latitude", latitude)
@@ -32,7 +31,8 @@ public class AirQualityApiClient {
                             .build())
                     .accept(MediaType.APPLICATION_JSON)
                     .retrieve()
-                    .bodyToMono(WeatherResponse.class)
+                    .bodyToMono(AirQualityResponse.class)
                     .block();
+        return response;
         }
 }
