@@ -1,9 +1,7 @@
 package com.isaac.weatherapp.controller;
 
 import com.isaac.weatherapp.dto.*;
-import com.isaac.weatherapp.service.CitySearchServiceImpl;
-import com.isaac.weatherapp.service.GeminiService;
-import com.isaac.weatherapp.service.WeatherServiceImpl;
+import com.isaac.weatherapp.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +15,20 @@ import org.springframework.web.bind.annotation.*;
 public class WeatherController {
 
     private final WeatherServiceImpl weatherServiceImpl;
+    private final AirQualityServiceImpl airQualityServiceImpl;
     private final CitySearchServiceImpl citySearchServiceImpl;
     private final GeminiService geminiService;
 
     @PostMapping("/full")
     public FullWeatherDTO getFullWeather(@RequestBody CityDTO city) {
-        return weatherServiceImpl.getFullWeather(city);
+
+        FullWeatherDTO fullWeatherData = weatherServiceImpl.getFullWeather(city);
+
+        AirQualityDTO airQualityData = airQualityServiceImpl.getAirQuality(city);
+
+        fullWeatherData.setAirQuality(airQualityData);
+
+        return fullWeatherData;
     }
 
     @GetMapping("/cities")
