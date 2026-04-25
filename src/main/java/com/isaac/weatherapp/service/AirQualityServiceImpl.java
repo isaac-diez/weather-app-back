@@ -3,7 +3,6 @@ package com.isaac.weatherapp.service;
 import com.isaac.weatherapp.client.AirQualityApiClient;
 import com.isaac.weatherapp.dto.*;
 import com.isaac.weatherapp.mapping.AirQualityMapper;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneId;
@@ -12,7 +11,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
-@Slf4j
 public class AirQualityServiceImpl implements AirQualityService {
 
     private final AirQualityApiClient airQualityApiClient;
@@ -31,14 +29,8 @@ public class AirQualityServiceImpl implements AirQualityService {
         current.setCity(city.getName());
         current.setCityTimeZone(response.getTimezone());
 
-        log.info("City Mapeado: {}", current.getCity());
-        log.info("CityTimeZone Mapeado: {}", current.getCityTimeZone());
-        log.info("PM2.5 Mapeado: {}", current.getPm2_5());
-
         int startIndex = findCurrentHourIndex(response.getHourly().getTime(), response.getTimezone());
         List<AirQualityHourDTO> hourly = airQualityMapper.toHourlyDtoList(response.getHourly(), startIndex, 24);
-
-        log.info("hourly: {}", hourly);
 
         return new AirQualityDTO(current, hourly);
     }
