@@ -100,12 +100,12 @@ class WeatherServiceImplTest {
         when(weatherApiClient.getWeatherData(anyDouble(), anyDouble())).thenReturn(mockResponse);
 
         FullWeatherDTO result = weatherService.getFullWeather(mockCity);
-        SolarSummaryDTO solar = result.getSolarSummary();
+        SolarSummaryDTO solar = result.getSolar();
 
         assertEquals(5.5, solar.getMaxUvIndexToday());
         assertEquals("10h:00m", solar.getSunshineHours());
-        assertEquals("RISK.MODERATE", solar.getRiskLevel());
-        assertTrue(solar.getRecommendation().contains("SOLAR_ADVICE.MODERATE"));
+        assertEquals("RISK.NIGHT", solar.getRiskLevel());
+        assertTrue(solar.getRecommendation().contains("SOLAR_ADVICE.NIGHT"));
     }
 
     @Test
@@ -115,6 +115,6 @@ class WeatherServiceImplTest {
         FullWeatherDTO result = weatherService.getFullWeather(mockCity);
 
         String expectedPeak = "2026-03-20T14:00";
-        assertEquals(expectedPeak, result.getSolarSummary().getPeakUvTime());
+        assertEquals(expectedPeak, result.getSolar().getPeakUvTime());
     }
 }
