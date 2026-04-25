@@ -40,8 +40,8 @@ public class GeminiServiceImpl implements GeminiService {
         double humidity = weather.getCurrent().getRelativeHumidity();
         double cloudCover = weather.getCurrent().getCloudCover();
         double uvIndex = weather.getCurrent().getUvIndex();
-        double uvIndexMax = weather.getSolarSummary().getMaxUvIndexToday();
-        String uvIndexMaxTime = weather.getSolarSummary().getPeakUvTime();
+        double uvIndexMax = weather.getSolar().getMaxUvIndexToday();
+        String uvIndexMaxTime = weather.getSolar().getPeakUvTime();
 
         String cityTimeZone = (weather.getCurrent().getCityTimeZone() != null) ? weather.getCurrent().getCityTimeZone() : "UTC";
         ZoneId zoneId = ZoneId.of(cityTimeZone);
@@ -53,7 +53,7 @@ public class GeminiServiceImpl implements GeminiService {
         String weatherCondition = isRaining ? "It is raining" : "It is not raining";
         String language = getLanguageName(languageCode);
         String promptBase = String.format(" in %s, at %s, current temperature is %.0f°C. " +
-                        "Weather: temperature %s, the humidity %.0f%%, the cloud cover is %.0f%% and UV Index %s with a maximum of %s at %s. " +
+                        "Weather: temperature %s, the humidity %.0f%%, the cloud cover is %.0f%%. " +
                         "Use no more than 4 sentences. Do not indicate word count. " +
                         "Do not use markdown. Space the sentences with paragraphs for better readability. " +
                         "IMPORTANT: You must respond ONLY in %s language.",
@@ -69,7 +69,7 @@ public class GeminiServiceImpl implements GeminiService {
             case "drink":
                 return "Act as Ron Swanson if he was a Bar Expert. Recommend an ideal drink for this weather in local bar or cafeteria and suggest where to drink it and why "  + promptBase;
             case "sun":
-                return "Act as an expert skin protection professional but don't mention it. Give advice for best hours for outdoor activities minimizing the risks of the direct exposure to the sun " + promptBase + ". And always add to seek expert advice from dermatologists.";
+                return "Act as an expert skin protection professional but don't mention it. UV Index is "+uvIndex+" with a maximum of "+uvIndexMaxTime+" at "+uvIndexMaxTime+". Give advice for best hours for outdoor activities minimizing the risks of the direct exposure to the sun " + promptBase + ". And always add to seek expert advice from dermatologists.";
             case "energy":
                 return "Act as an expert solar energy engineer. Give expert comments whether today is a good day for solar energy production, max solar production and suggestions to improve it "  + promptBase;
             default:
