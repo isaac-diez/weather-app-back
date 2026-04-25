@@ -149,7 +149,7 @@ public class WeatherServiceImpl implements WeatherService {
             solar.setRecommendation("SOLAR_ADVICE.HIGH");
         } else {
             solar.setRiskLevel("RISK.EXTREME");
-            solar.setRecommendation("SOLAR_ADVICE.EXTREME");//Evita salir en las horas centrales. Riesgo de quemadura muy rápido.
+            solar.setRecommendation("SOLAR_ADVICE.EXTREME");
         }
 
         return new FullWeatherDTO(current, forecast, solar);
