@@ -4,9 +4,10 @@ import com.isaac.weatherapp.client.WeatherApiClient;
 import com.isaac.weatherapp.dto.*;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -56,13 +57,15 @@ public class WeatherServiceImpl implements WeatherService {
         String cityTimeZone = (response.getTimezone() != null) ? response.getTimezone() : "UTC";
         ZoneId zoneId = ZoneId.of(cityTimeZone);
 
-        ZonedDateTime nowInCity = ZonedDateTime.now(zoneId);
-        String nowString = nowInCity.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:00"));
+        ZonedDateTime nowInCity = ZonedDateTime.now(zoneId).truncatedTo(java.time.temporal.ChronoUnit.HOURS);
 
         List<ForecastHourDTO> hours = IntStream.range(0, response.getHourly().getTime().size())
                 .filter(i -> {
-                    String hourTime = response.getHourly().getTime().get(i);
-                    return hourTime.compareTo(nowString) >= 0;
+                    LocalDateTime ldt = LocalDateTime.parse(response.getHourly().getTime().get(i));
+                    ZoneId apiZone = response.getTimezone().equals("GMT") ? ZoneOffset.UTC : ZoneId.of(response.getTimezone());
+                    ZonedDateTime hourTime = ldt.atZone(apiZone);
+
+                    return !hourTime.isBefore(nowInCity);
                 })
                 .limit(24)
                 .mapToObj(i -> {
@@ -80,7 +83,10 @@ public class WeatherServiceImpl implements WeatherService {
         forecast.setHours(hours);
 
         int currentIndex = IntStream.range(0, response.getHourly().getTime().size())
-                .filter(i -> response.getHourly().getTime().get(i).equals(nowString))
+                .filter(i -> {
+                    ZonedDateTime hourTime = java.time.LocalDateTime.parse(response.getHourly().getTime().get(i)).atZone(zoneId);
+                    return hourTime.equals(nowInCity);
+                })
                 .findFirst()
                 .orElse(0);
 
