@@ -76,6 +76,9 @@ public class WeatherServiceImpl implements WeatherService {
                     h.setWeather_code(response.getHourly().getWeather_code().get(i));
                     h.setPrecipitation_probability(safe(response.getHourly().getPrecipitation_probability().get(i)));
                     h.setUv_index(safe(response.getHourly().getUvIndex().get(i)));
+                    h.setWind_direction_10m(safe(response.getHourly().getWind_direction_10m().get(i)));
+                    h.setWind_speed_10m(safe(response.getHourly().getWind_speed_10m().get(i)));
+                    h.setWind_gusts_10m(safe(response.getHourly().getWind_gusts_10m().get(i)));
                     return h;
                 })
                 .toList();

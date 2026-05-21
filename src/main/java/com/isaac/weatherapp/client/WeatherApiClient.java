@@ -26,7 +26,7 @@ public class WeatherApiClient {
                             .queryParam("latitude", latitude)
                             .queryParam("longitude", longitude)
                             .queryParam("current", "temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,cloud_cover,wind_speed_10m,wind_direction_10m,wind_gusts_10m,uv_index")
-                            .queryParam("hourly", "temperature_2m,weather_code,rain,precipitation_probability,cloud_cover,uv_index,uv_index_clear_sky,sunshine_duration,shortwave_radiation")
+                            .queryParam("hourly", "temperature_2m,weather_code,rain,precipitation_probability,cloud_cover,uv_index,uv_index_clear_sky,sunshine_duration,shortwave_radiation,wind_speed_10m,wind_direction_10m,wind_gusts_10m")
                             .queryParam("daily", "temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,precipitation_probability_max,uv_index_max,uv_index_clear_sky_max,sunshine_duration,daylight_duration,sunrise,sunset")
                             .queryParam("timezone", "auto")
                             .queryParam("forecast_hours", 24)
