@@ -43,7 +43,7 @@ public class GeminiApiClient {
         }
 
 
-        String modelName = "gemma-3-27b-it";
+        String modelName = "gemini-2.5-flash";
 
         String payload = String.format("""
             {
@@ -62,13 +62,13 @@ public class GeminiApiClient {
         try {
             String responseBody = geminiWebClient.post()
                     .uri(uriBuilder -> uriBuilder
-                            .pathSegment(modelName + ":generateContent")
+                            .path(modelName + ":generateContent")
                             .queryParam("key", this.apiKey)
                             .build())
                     .bodyValue(payload)
                     .retrieve()
                     .bodyToMono(String.class)
-                    .timeout(Duration.ofSeconds(15))
+                    .timeout(Duration.ofSeconds(60))
                     .block();
 
             log.info("Gemini API responded successfully.");
