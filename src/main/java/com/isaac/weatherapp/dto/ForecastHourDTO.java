@@ -14,4 +14,7 @@ public class ForecastHourDTO {
     private Double cloudCover;
     private Double uv_index;
     private Double uv_index_clear_sky;
+    private Double wind_speed_10m;
+    private Double wind_direction_10m;
+    private Double wind_gusts_10m;
 }
