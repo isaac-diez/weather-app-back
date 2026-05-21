@@ -68,5 +68,8 @@ public class WeatherResponse {
         @JsonProperty("uv_index_clear_sky") private List<Double> uvIndexClearSky;
         @JsonProperty("sunshine_duration") private List<String> sunshineDuration;
         @JsonProperty("shortwave_radiation") private List<Double> shortwaveRadiation;
+        @JsonProperty("wind_speed_10m") private List<Double> wind_speed_10m;
+        @JsonProperty("wind_direction_10m") private List<Double> wind_direction_10m;
+        @JsonProperty("wind_gusts_10m") private List<Double> wind_gusts_10m;
     }
 }
