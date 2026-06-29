@@ -44,6 +44,7 @@ public class GeminiApiClient {
 
 
         String modelName = "gemini-2.5-flash";
+//        String modelName = "gemini-2.5-flash"; gemini-3-flash-preview
 
         String payload = String.format("""
             {
@@ -62,13 +63,13 @@ public class GeminiApiClient {
         try {
             String responseBody = geminiWebClient.post()
                     .uri(uriBuilder -> uriBuilder
-                            .path(modelName + ":generateContent")
+                            .pathSegment(modelName + ":generateContent")
                             .queryParam("key", this.apiKey)
                             .build())
                     .bodyValue(payload)
                     .retrieve()
                     .bodyToMono(String.class)
-                    .timeout(Duration.ofSeconds(60))
+                    .timeout(Duration.ofSeconds(15))
                     .block();
 
             log.info("Gemini API responded successfully.");

@@ -53,21 +53,20 @@ public class GeminiServiceImpl implements GeminiService {
         String weatherCondition = isRaining ? "It is raining" : "It is not raining";
         String language = getLanguageName(languageCode);
         String promptBase = String.format(" in %s, at %s, current temperature is %.0f°C. " +
-                        "Weather: temperature %s, the humidity %.0f%%, the cloud cover is %.0f%%. " +
-                        "Use no more than 4 sentences. Do not indicate word count. " +
-                        "Do not use markdown. Space the sentences with paragraphs for better readability. " +
+                        "%s, the humidity %.0f%%, the cloud cover is %.0f%%. " +
+                        "Use 4 sentences and space the sentences with paragraphs for better readability. " +
                         "IMPORTANT: You must respond ONLY in %s language.",
-                safeCityName, nowInCity, temp, weatherCondition, humidity, cloudCover, uvIndex, uvIndexMax, uvIndexMaxTime, language);
+                safeCityName, nowInCity, temp, weatherCondition, humidity, cloudCover, language);
 
         switch (mode) {
             case "outfit":
-                return  "Act as a wise-ass angry gay fashion stylist " + promptBase + " Recommend a brief outfit using emojis giving the reason why.";
+                return  "Act as a sassy fashion stylist " + promptBase + " Recommend an outfit and the reason why.";
             case "activity":
-                return "Act as a completely unhinged hysterical karen type of person local guide. Recommend at least 3 activities or tourist attractions to visit right now (you can use emojis) " + promptBase;
+                return "Act as a completely unhinged hysterical local guide. Recommend at least 3 activities or tourist attractions to visit right now " + promptBase;
             case "laundry":
-                return "Act as a trust fund preppy nepo baby Home expert " + promptBase + "Is it a good time to do laundry and hang clothes outside? Explain why.";
+                return "Act as a trust fund preppy Home expert " + promptBase + "Is it a good time to do laundry and hang clothes outside? Explain why.";
             case "drink":
-                return "Act as Ron Swanson if he was a Bar Expert. Recommend an ideal drink for this weather in local bar or cafeteria and suggest where to drink it and why "  + promptBase;
+                return "Act as Ron Swanson being a Bar Expert. Recommend an ideal drink for this weather in local bar or cafeteria and suggest where to drink it and why "  + promptBase;
             case "sun":
                 return "Act as an expert skin protection professional but don't mention it. UV Index is "+uvIndex+" with a maximum of "+uvIndexMaxTime+" at "+uvIndexMaxTime+". Give advice for best hours for outdoor activities minimizing the risks of the direct exposure to the sun " + promptBase + ". And always add to seek expert advice from dermatologists.";
             case "energy":
